@@ -17,18 +17,18 @@ export class UserProfileService {
         return this.http.get(this.userProfileUrl)
                         .toPromise()
                         .then(response => response.json() as UserProfile)
-                        .catch(this.handleError);
+                        .catch(error => this.handleError(error));
     }
 
     update(userProfile: UserProfile): Promise<UserProfile> {
         return this.http.post(this.userProfileUrl, JSON.stringify(userProfile), {headers: this.headers})
                         .toPromise()
                         .then(() => userProfile)
-                        .catch(this.handleError);
+                        .catch(error => this.handleError(error));
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+        console.log(error);
+        return Promise.reject(error);
     }
 }

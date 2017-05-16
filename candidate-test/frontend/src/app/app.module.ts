@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { UserProfileComponent } from './userProfiles/user-profile.component';
 import { UserProfileService } from './userProfiles/user-profile.service';
+import { PhonePipe } from './userProfiles/user-profile-phone.pipe';
 
 import { routing } from './app.routing';
 
@@ -21,7 +22,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   declarations: [
     AppComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    PhonePipe
   ],
   providers: [
     UserProfileService

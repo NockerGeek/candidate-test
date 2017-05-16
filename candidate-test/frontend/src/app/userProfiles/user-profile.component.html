@@ -1,5 +1,10 @@
-<div *ngIf="userProfile">
+<div [hidden]="submitted" *ngIf="userProfile">
   <form #profileForm="ngForm">
+
+  <div *ngIf="jsonError" class="alert alert-danger">
+    {{ jsonError }}
+  </div>
+
   <div class="row">
     <div class="col-md-5 form-group">
     <label for="firstName">first name: </label>
@@ -75,7 +80,9 @@
     <div class="row">
       <div class="col-md-6">
         <label>Phone Number: </label>
-        <input [(ngModel)]="userProfile.phone" name="phone" class="form-control" id="phone" #phone="ngModel" pattern="^((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"/>
+        <input [ngModel]="userProfile.phone | phoneFormat"
+               (ngModelChange)="userProfile.phone=$event"
+               name="phone" class="form-control" id="phone" #phone="ngModel" pattern="^((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"/>
         <div class="alert alert-danger" [hidden]="phone.valid || phone.untouched">
           <div class="md-char-counter" *ngIf="phone.errors && phone.errors.pattern">
             Phone Number is invalid
@@ -87,8 +94,69 @@
   <div class="row buttonRow">
     <div class="col-md-12 form-group">
   <button class="btn btn-primary"  (click)="profileForm.reset()">Reset</button>
-  <button class="btn btn-success" (click)="save()">Save</button>
+  <button class="btn btn-success" (click)="save(profileForm)">Save</button>
     </div>
   </div>
   </form>
+</div>
+
+<div [hidden]="!submitted" *ngIf="userProfile">
+  <div class="row">
+    <div class="col-md-5 text-left">
+      <label for="firstName">first name: </label>
+      {{ userProfile.firstName }}
+    </div>
+
+    <div class="col-md-2 text-left">
+      <label>MI: </label>
+      {{ userProfile.middleInit }}
+    </div>
+
+    <div class="col-md-5 text-left">
+      <label>last name: </label>
+      {{ userProfile.lastName }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-left">
+      <label>Email Address: </label>
+      {{ userProfile.email }}
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-left">
+      <label>Address: </label>
+      {{ userProfile.address1 }}<br />
+      {{ userProfile.address2 }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 text-left">
+      <label>City: </label>
+      {{ userProfile.city }}
+    </div>
+
+    <div class="col-md-3 text-left">
+      <label>State: </label>
+      {{ userProfile.state }}
+    </div>
+
+    <div class="col-md-3 text-left">
+      <label>Zip: </label>
+      {{ userProfile.zip }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 text-left">
+      <label>Phone Number: </label>
+      {{ userProfile.phone | phoneFormat }}
+    </div>
+  </div>
+  <br>
+  <button class="btn btn-primary" (click)="submitted=false">Edit</button>
 </div>
