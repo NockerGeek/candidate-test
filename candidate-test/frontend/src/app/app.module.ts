@@ -1,12 +1,12 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ApiService } from './shared';
+import { UserProfileComponent } from './userProfiles/user-profile.component';
+import { UserProfileService } from './userProfiles/user-profile.service';
+
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -16,15 +16,15 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     BrowserModule,
     HttpModule,
     FormsModule,
+    JsonpModule,
     routing
   ],
   declarations: [
     AppComponent,
-    HomeComponent,
-    AboutComponent
+    UserProfileComponent
   ],
   providers: [
-    ApiService
+    UserProfileService
   ],
   bootstrap: [AppComponent]
 })

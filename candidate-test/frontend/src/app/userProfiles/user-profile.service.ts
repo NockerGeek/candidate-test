@@ -16,7 +16,7 @@ export class UserProfileService {
     getUserProfile(): Promise<UserProfile> {
         return this.http.get(this.userProfileUrl)
                         .toPromise()
-                        .then(response => response.json().data as UserProfile)
+                        .then(response => response.json() as UserProfile)
                         .catch(this.handleError);
     }
 

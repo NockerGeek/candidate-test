@@ -1,5 +1,5 @@
 export class UserProfile {
-    firstName: string;
+    firstName: string;  // required
     middleInit: string;
     lastName: string;    // required
     email: string;       // required

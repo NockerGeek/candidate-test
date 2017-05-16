@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from './shared';
+import { UserProfile } from './userProfiles/user-profile';
+import { UserProfileService } from './userProfiles/user-profile.service';
 
 import '../style/app.scss';
 
@@ -9,11 +10,20 @@ import '../style/app.scss';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  url = 'https://github.com/preboot/angular2-webpack';
+export class AppComponent implements OnInit {
   title: string;
+  userProfile: UserProfile;
 
-  constructor(private api: ApiService) {
-    this.title = this.api.title;
+    constructor(
+        private userProfileService: UserProfileService
+    ) {}
+
+    getUserProfile(): void {
+        this.userProfileService.getUserProfile()
+            .then(userProfile => this.userProfile = userProfile);
+    }
+
+  ngOnInit(): void {
+    this.getUserProfile();
   }
 }
