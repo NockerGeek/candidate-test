@@ -38,11 +38,9 @@ public class NaicTestApplicationTests {
 
 	@Test
 	public void getTest() throws Exception {
-		Mockito.when(
-				profileService.getUserProfile(1L)).thenReturn(mockProfile);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-				"/users").accept(
+				"/users/1").accept(
 				MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();

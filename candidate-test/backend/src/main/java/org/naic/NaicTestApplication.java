@@ -1,7 +1,10 @@
 package org.naic;
 
+import org.naic.data.UserProfileRepository;
+import org.naic.model.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +25,19 @@ public class NaicTestApplication implements ApplicationListener<ContextRefreshed
 
 	@Value("${spring.profiles.active}")
 	protected String springProfilesActive;
+
+	@Autowired
+	private UserProfileRepository repository;
+
+	@PostConstruct
+	public void init() {
+		UserProfile profile1 = new UserProfile("rbarr","password","Rob","Barr","nockergeek@gmail.com");
+		repository.save(profile1);
+		UserProfile profile2 = new UserProfile("bob","password","Bob","Barr","nockergeek@gmail.com");
+		repository.save(profile2);
+		UserProfile profile3 = new UserProfile("dude","password","Dude","Barr","nockergeek@gmail.com");
+		repository.save(profile3);
+	}
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {

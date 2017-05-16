@@ -23,18 +23,6 @@ public class UserController {
 
     @Autowired
     private UserProfileService profileService;
-    @Autowired
-    private UserProfileRepository repository;
-
-    @PostConstruct
-    public void init() {
-        UserProfile profile1 = new UserProfile("rbarr","password","Rob","Barr","nockergeek@gmail.com");
-        repository.save(profile1);
-        UserProfile profile2 = new UserProfile("bob","password","Bob","Barr","nockergeek@gmail.com");
-        repository.save(profile2);
-        UserProfile profile3 = new UserProfile("dude","password","Dude","Barr","nockergeek@gmail.com");
-        repository.save(profile3);
-    }
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
