@@ -12,6 +12,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.annotation.PostConstruct;
+
 @EnableWebMvc
 @SpringBootApplication
 public class NaicTestApplication implements ApplicationListener<ContextRefreshedEvent> {
@@ -27,6 +29,7 @@ public class NaicTestApplication implements ApplicationListener<ContextRefreshed
 		LOG.info("App running with active profiles: {}", springProfilesActive);
 		LOG.info("=======================================");
 	}
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(NaicTestApplication.class, args);

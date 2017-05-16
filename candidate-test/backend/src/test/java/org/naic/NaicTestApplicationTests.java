@@ -34,12 +34,12 @@ public class NaicTestApplicationTests {
 	@MockBean
 	private UserProfileService profileService;
 
-	UserProfile mockProfile = new UserProfile("Rob","W","Barr","nockergeek@gmail.com","709 Walnut St.","","Greenwood","MO","64034","8168134385");
+	UserProfile mockProfile = new UserProfile("rbarr","password","Rob","Barr","nockergeek@gmail.com");
 
 	@Test
 	public void getTest() throws Exception {
 		Mockito.when(
-				profileService.getUserProfile()).thenReturn(mockProfile);
+				profileService.getUserProfile(1L)).thenReturn(mockProfile);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
 				"/users").accept(
@@ -56,7 +56,7 @@ public class NaicTestApplicationTests {
 	@Test
 	public void emailTest() throws Exception {
 		Mockito.when(
-				profileService.getUserProfile()).thenReturn(mockProfile);
+				profileService.getUserProfile(1L)).thenReturn(mockProfile);
 
 		mockProfile.setEmail("");
 

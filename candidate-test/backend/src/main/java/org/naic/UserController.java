@@ -4,12 +4,13 @@ package org.naic;
  * Created by Robert on 5/15/2017.
  */
 
+import org.naic.data.UserProfileRepository;
 import org.naic.model.UserProfile;
 import org.naic.service.UserProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -19,24 +20,44 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserProfile userProfile;
 
     @Autowired
     private UserProfileService profileService;
+    @Autowired
+    private UserProfileRepository repository;
+
+    @PostConstruct
+    public void init() {
+        UserProfile profile1 = new UserProfile("rbarr","password","Rob","Barr","nockergeek@gmail.com");
+        repository.save(profile1);
+        UserProfile profile2 = new UserProfile("bob","password","Bob","Barr","nockergeek@gmail.com");
+        repository.save(profile2);
+        UserProfile profile3 = new UserProfile("dude","password","Dude","Barr","nockergeek@gmail.com");
+        repository.save(profile3);
+    }
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-    @RequestMapping(method = RequestMethod.GET)
-    @Secured("USER")
-    public UserProfile getUserProfile() {
-        return profileService.getUserProfile();
+    @RequestMapping(value = "/authUser", method = RequestMethod.GET)
+    //@Secured("USER")
+    public UserProfile getUserProfile(@RequestParam(value="username", required=true) String username,
+                                      @RequestParam(value="password", required=true) String password) {
+        return profileService.authenticateUserProfile(username, password);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    @Secured("USER")
-    public UserProfile updateUserProfile(@RequestBody @Valid UserProfile updatedProfile) {
-        profileService.setUserProfile(updatedProfile);
-        userProfile = profileService.getUserProfile();
+    @PreAuthorize("@currentUserServiceImpl.canAccessUser(principal, #id)")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    //@Secured("USER")
+    public UserProfile getUserProfile(@PathVariable long id) {
+        return profileService.getUserProfile(id);
+    }
+
+    @PreAuthorize("@currentUserServiceImpl.canAccessUser(principal, #id)")
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    //@Secured("USER")
+    public UserProfile updateUserProfile(@PathVariable long id, @RequestBody @Valid UserProfile updatedProfile) {
+        profileService.updateUserProfile(updatedProfile);
+        UserProfile userProfile = profileService.getUserProfile(updatedProfile.getId());
         LOG.info(userProfile.toString());
         return userProfile;
     }
