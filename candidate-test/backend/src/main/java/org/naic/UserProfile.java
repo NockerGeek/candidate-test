@@ -12,7 +12,10 @@ import java.io.Serializable;
  * User's basic profile
  *
  */
-@Data
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserProfile implements Serializable
 {

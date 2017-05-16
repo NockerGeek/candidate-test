@@ -75,7 +75,12 @@
     <div class="row">
       <div class="col-md-6">
         <label>Phone Number: </label>
-        <input [(ngModel)]="userProfile.phone" name="phone" class="form-control" id="phone" />
+        <input [(ngModel)]="userProfile.phone" name="phone" class="form-control" id="phone" #phone="ngModel" pattern="^((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"/>
+        <div class="alert alert-danger" [hidden]="phone.valid || phone.untouched">
+          <div class="md-char-counter" *ngIf="phone.errors && phone.errors.pattern">
+            Phone Number is invalid
+          </div>
+        </div>
       </div>
     </div>
 

@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -15,9 +17,13 @@ public class UserController {
     private UserProfile userProfile = new UserProfile();
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
+    @PostConstruct
+    public void init() {
+        populateUserProfile();
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public UserProfile getUserProfile() {
-        populateUserProfile();
         return userProfile;
     }
 
