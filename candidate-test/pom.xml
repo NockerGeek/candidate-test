@@ -32,6 +32,7 @@
     <modules>
         <module>frontend</module>
         <module>backend</module>
+        <module>web</module>
     </modules>
 
 </project>
