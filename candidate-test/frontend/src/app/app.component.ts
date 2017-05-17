@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
-import { UserProfile } from './userProfiles/user-profile';
-import { UserProfileService } from './userProfiles/user-profile.service';
+import { Component } from '@angular/core';
 
 import '../style/app.scss';
 
@@ -10,20 +7,6 @@ import '../style/app.scss';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title: string;
-  userProfile: UserProfile;
-
-    constructor(
-        private userProfileService: UserProfileService
-    ) {}
-
-    getUserProfile(): void {
-        this.userProfileService.getUserProfile()
-            .then(userProfile => this.userProfile = userProfile);
-    }
-
-  ngOnInit(): void {
-    this.getUserProfile();
-  }
 }

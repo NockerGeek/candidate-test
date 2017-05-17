@@ -1,15 +1,16 @@
 <header>
+  <nav>
+    <a [routerLink]="['/login']">Logout</a>
+  </nav>
 </header>
 <main>
-  <h1>Hello!</h1>
+  <h1>NAIC Candidate Test</h1>
 
   <div class="container">
     <div class="row">
-      <div class="col-md-3">&nbsp;</div>
-      <div class="col-md-6">
-  <my-profile></my-profile>
+      <div class="col-md-12">
+        <router-outlet></router-outlet>
       </div>
-      <div class="col-md-3">&nbsp;</div>
     </div>
   </div>
 

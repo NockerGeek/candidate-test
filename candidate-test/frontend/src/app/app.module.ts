@@ -4,9 +4,14 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { LoginService } from './login/login.service';
+
 import { UserProfileComponent } from './userProfiles/user-profile.component';
 import { UserProfileService } from './userProfiles/user-profile.service';
 import { PhonePipe } from './userProfiles/user-profile-phone.pipe';
+
+import { AuthGuard } from './_guards/auth.guard';
 
 import { routing } from './app.routing';
 
@@ -22,11 +27,14 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   declarations: [
     AppComponent,
+    LoginComponent,
     UserProfileComponent,
     PhonePipe
   ],
   providers: [
-    UserProfileService
+    AuthGuard,
+    UserProfileService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

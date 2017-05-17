@@ -1,7 +1,15 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
-
-const routes: Routes = [
+import { LoginComponent } from './login/index';
+import { UserProfileComponent } from './userProfiles/index';
+import { AuthGuard } from './_guards/index';
+ 
+const appRoutes: Routes = [
+    { path: 'login', component: LoginComponent },
+    { path: '', component: UserProfileComponent, canActivate: [AuthGuard] },
+ 
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' }
 ];
 
-export const routing = RouterModule.forRoot(routes);
+export const routing = RouterModule.forRoot(appRoutes);

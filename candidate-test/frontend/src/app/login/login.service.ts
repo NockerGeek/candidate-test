@@ -1,60 +1,46 @@
 import { Injectable } from '@angular/core';
-import {Headers, Http, RequestOptions} from '@angular/http';
-
-import 'rxjs/add/operator/toPromise';
-
-import { UserProfile } from './user-profile';
-import { Observable } from "rxjs/Rx";
-
-export class User {
-    constructor(
-        public username: string,
-        public password: string) { }
-}
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/map'
 
 @Injectable()
 export class LoginService {
+    public token: string;
+    private userProfileUrl = 'http://' + [process.env.API_URL] + '/users';  // URL to web api
 
-    constructor(
-        private _router: Router){}
-
-    logout() {
-        localStorage.removeItem("user");
-        this._router.navigate(['Login']);
+    constructor(private http: Http) {
+        // set token if saved in local storage
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.token = currentUser && currentUser.token;
     }
 
-    login(user){
-        var authenticatedUser = users.find(u => u.email === user.email);
-        if (authenticatedUser && authenticatedUser.password === user.password){
-            localStorage.setItem("user", authenticatedUser);
-            this._router.navigate(['Home']);
-            return true;
-        }
-        return false;
+    login(username: string, password: string): Observable<boolean> {
+        return this.http.get(this.userProfileUrl + '/authenticate?username='+ username + '&password=' + password)
+            .map((response: Response) => {
+                // login successful if there's a jwt token in the response
+                let id = response.json().id;
 
+                if (id) {
+                    let token = btoa(username + ":" + password);
+
+                    // set token property
+                    this.token = token;
+
+                    // store username and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify({ username: username, id: id, token: token }));
+
+                    // return true to indicate successful login
+                    return true;
+                } else {
+                    // return false to indicate failed login
+                    return false;
+                }
+            });
     }
 
-    checkCredentials(){
-        if (localStorage.getItem("user") === null){
-            this._router.navigate(['Login']);
-        }
+    logout(): void {
+        // clear token remove user from local storage to log user out
+        this.token = null;
+        localStorage.removeItem('currentUser');
     }
-
-    login (user): Observable<LoginResponse> { // custom class, may be empty now
-
-        let headers = new Headers({
-            'Authorization': 'Basic ' + btoa(loginDetails.username + ':' + loginDetails.password),
-            'X-Requested-With': 'XMLHttpRequest' // to suppress 401 browser popup
-        });
-
-        let options = new RequestOptions({
-            headers: headers
-        });
-
-        return this
-            .http
-            .post(this.loginUrl, {}, options)
-            .catch(e => this.handleError(e); // handle 401 error - bad credentials
-    }
-
 }

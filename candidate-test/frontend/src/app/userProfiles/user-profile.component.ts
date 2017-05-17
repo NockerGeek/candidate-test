@@ -4,7 +4,6 @@ import { UserProfile }                from './user-profile';
 import { UserProfileService }         from './user-profile.service';
 
 @Component({
-  selector: 'my-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: [ './user-profile.component.scss' ]
 })
@@ -12,17 +11,17 @@ import { UserProfileService }         from './user-profile.service';
 export class UserProfileComponent implements OnInit {
   userProfile: UserProfile;
   submitted = false;
-    jsonError: string;
-  onSubmit() { this.submitted = true; }
+  jsonError: string;
 
   constructor(
-    private userProfileService: UserProfileService) { }
-
-
+    private userProfileService: UserProfileService) {
+  }
 
   getUserProfile(): void {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
     this.userProfileService
-        .getUserProfile()
+        .getUserProfile(currentUser.id, currentUser.token)
         .then(userProfile => {
             this.userProfile = userProfile;
             console.log(userProfile);
@@ -30,8 +29,20 @@ export class UserProfileComponent implements OnInit {
   }
 
   save(profileForm): void {
+      let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      let instance : UserProfileComponent = this;
+
+      instance.submitted = false;
+      this.jsonError = null;
+
       if (profileForm.valid) {
-          this.userProfileService.update(this.userProfile)
+          this.userProfileService
+            .update(currentUser.id, currentUser.token, this.userProfile)
+            .then(
+                function() {
+                    instance.submitted = true; //this is not working
+                }
+            )
               .catch(error => {
                   this.jsonError = '';
                   console.log(error);
@@ -40,12 +51,13 @@ export class UserProfileComponent implements OnInit {
                   for (let errorMsg of jsonErrors) {
                       this.jsonError += errorMsg.defaultMessage + " ";
                   }
+                  instance.submitted = false;
               });
-          this.submitted = true;
       }
   }
 
   ngOnInit(): void {
       this.getUserProfile();
-    }
+  }
+
 }

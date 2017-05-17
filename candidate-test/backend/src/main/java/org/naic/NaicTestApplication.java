@@ -1,53 +1,31 @@
 package org.naic;
 
-import org.naic.data.UserProfileRepository;
-import org.naic.model.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import javax.annotation.PostConstruct;
 
 @EnableWebMvc
 @SpringBootApplication
 public class NaicTestApplication implements ApplicationListener<ContextRefreshedEvent> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(NaicTestApplication.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NaicTestApplication.class);
 
-	@Value("${spring.profiles.active}")
-	protected String springProfilesActive;
+    @Value("${spring.profiles.active}")
+    protected String springProfilesActive;
 
-	@Autowired
-	private UserProfileRepository repository;
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        LOG.info("=======================================");
+        LOG.info("App running with active profiles: {}", springProfilesActive);
+        LOG.info("=======================================");
+    }
 
-	@PostConstruct
-	public void init() {
-		UserProfile profile1 = new UserProfile("rbarr","password","Rob","Barr","nockergeek@gmail.com");
-		repository.save(profile1);
-		UserProfile profile2 = new UserProfile("bob","password","Bob","Barr","nockergeek@gmail.com");
-		repository.save(profile2);
-		UserProfile profile3 = new UserProfile("dude","password","Dude","Barr","nockergeek@gmail.com");
-		repository.save(profile3);
-	}
-
-	@Override
-	public void onApplicationEvent(ContextRefreshedEvent event) {
-		LOG.info("=======================================");
-		LOG.info("App running with active profiles: {}", springProfilesActive);
-		LOG.info("=======================================");
-	}
-
-
-	public static void main(String[] args) {
-		SpringApplication.run(NaicTestApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(NaicTestApplication.class, args);
+    }
 }

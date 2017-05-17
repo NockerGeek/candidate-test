@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-md-5 form-group">
     <label for="firstName">first name: </label>
-    <input [(ngModel)]="userProfile.firstName" name="firstName" class="form-control" id="firstName" required #firstName="ngModel" />
+    <input [(ngModel)]="userProfile.firstName" name="firstName" class="form-control" id="firstName" maxlength="50" required #firstName="ngModel" />
       <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
         Name is required
       </div>
@@ -16,12 +16,12 @@
 
     <div class="col-md-2 form-group">
       <label>MI: </label>
-      <input [(ngModel)]="userProfile.middleInit" name="middleInit" class="form-control" id="middleInit" />
+      <input [(ngModel)]="userProfile.middleInit" name="middleInit" class="form-control" id="middleInit" maxlength="1" />
     </div>
 
     <div class="col-md-5 form-group">
     <label>last name: </label>
-    <input [(ngModel)]="userProfile.lastName" name="lastName" class="form-control" id="lastName" required #lastName="ngModel" />
+    <input [(ngModel)]="userProfile.lastName" name="lastName" class="form-control" id="lastName" maxlength="50" required #lastName="ngModel" />
       <div [hidden]="lastName.valid || lastName.pristine"
            class="alert alert-danger">
         Name is required
@@ -32,7 +32,7 @@
     <div class="row">
       <div class="col-md-12">
         <label>Email Address: </label>
-        <input [(ngModel)]="userProfile.email" name="email" class="form-control" id="email" required #email="ngModel"
+        <input [(ngModel)]="userProfile.email" name="email" class="form-control" id="email" maxlength="100" required #email="ngModel"
                ngControl="email"
                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
         <div class="alert alert-danger" [hidden]="email.valid || email.untouched">
@@ -50,25 +50,25 @@
     <div class="row">
       <div class="col-md-12">
         <label>Address: </label>
-        <input [(ngModel)]="userProfile.address1" name="address1" class="form-control" id="address1" /><br />
-        <input [(ngModel)]="userProfile.address2" name="address2" class="form-control" id="address2" />
+        <input [(ngModel)]="userProfile.address1" name="address1" class="form-control" id="address1" maxlength="100" /><br />
+        <input [(ngModel)]="userProfile.address2" name="address2" class="form-control" id="address2" maxlength="100"/>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-7 form-group">
         <label>City: </label>
-        <input [(ngModel)]="userProfile.city" name="city" class="form-control" id="city" />
+        <input [(ngModel)]="userProfile.city" name="city" class="form-control" id="city" maxlength="100" />
       </div>
 
       <div class="col-md-2 form-group">
         <label>State: </label>
-        <input [(ngModel)]="userProfile.state" name="state" class="form-control" id="state" />
+        <input [(ngModel)]="userProfile.state" name="state" class="form-control" id="state" maxlength="2" />
       </div>
 
       <div class="col-md-3 form-group">
         <label>Zip: </label>
-        <input [(ngModel)]="userProfile.zip" name="zip" class="form-control" id="zip" #zip="ngModel" pattern="^\d{5}(?:[-\s]\d{4})?$" />
+        <input [(ngModel)]="userProfile.zip" name="zip" class="form-control" id="zip" #zip="ngModel" maxlength="10" pattern="^\d{5}(?:[-\s]\d{4})?$" />
         <div class="alert alert-danger" [hidden]="zip.valid || zip.untouched">
           <div class="md-char-counter" *ngIf="zip.errors && zip.errors.pattern">
             Zip code is invalid

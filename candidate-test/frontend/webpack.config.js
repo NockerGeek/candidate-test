@@ -161,10 +161,9 @@ module.exports = function makeWebpackConfig() {
     // Define env variables to help with builds
     // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     new webpack.DefinePlugin({
-      // Environment helpers
-      'process.env': {
-        ENV: JSON.stringify(ENV)
-      }
+      // Environment helper
+          'process.env.NODE_ENV': JSON.stringify('development'),
+          'process.env.API_URL': JSON.stringify('localhost:8090')
     }),
 
     new webpack.ProvidePlugin({

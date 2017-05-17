@@ -1,4 +1,4 @@
-package org.naic;
+package org.naic.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.*;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = { "classpath:/static/" };
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/static/"};
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
